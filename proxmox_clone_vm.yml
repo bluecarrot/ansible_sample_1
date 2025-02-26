@@ -21,7 +21,7 @@
         net:
           net0: 'virtio,bridge=vmbr0,tag=23'
         timeout: 500
-
+    # add NIC
     - name: Create NIC net0 targeting the vm by name
       community.general.proxmox_nic:
         api_host: "10.0.3.106"
