@@ -1,0 +1,35 @@
+---
+- name: Clone VM from Template
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Clone Proxmox VM
+      community.general.proxmox_kvm:
+        api_host: "10.0.3.106"
+        api_user: "{{ proxmox_user }}"
+        api_password: "{{ proxmox_pass }}"
+        node: "CX-LAB-PXM02"
+        clone: "AiMin-Rocky-template"
+        vmid: 108
+        name: "sg-rocky"
+        full: true
+        state: present
+        memory: 2048
+        cores: 2
+        storage: "local-lvm"
+        format: "qcow2"
+        net:
+          net0: 'virtio,bridge=vmbr0,tag=23'
+        timeout: 500
+
+    - name: Create NIC net0 targeting the vm by name
+      community.general.proxmox_nic:
+        api_host: "10.0.3.106"
+        api_user: "{{ proxmox_user }}"
+        api_password: "{{ proxmox_pass }}"
+        name: "sg-rocky"
+        interface: net0
+        bridge: vmbr0
+        tag: 23
+      retries: 3
+      delay: 10
