@@ -1,0 +1,10 @@
+---
+- name: test survey
+  hosts: all
+  gather_facts: false
+  vars:
+    survey_input: ""
+  tasks:
+  - name: return survey output
+    debug:
+      msg: "{{ survey_input }}"
